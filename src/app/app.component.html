@@ -28,22 +28,48 @@
       <small *ngIf="reactiveForm.get('projStat').touched && reactiveForm.get('projStat').invalid" 
       class="form-text text-danger">Invalid</small>
     </div>
-    <div formGroupName="persons">
+    <div formGroupName="details">
+        <div class="form-group">
+            <label>
+                Platform
+              <select class="form-control" formControlName="platform">
+                  <option></option>
+                  <option>Java</option>
+                  <option>Node JS</option>
+                  <option>Angular JS</option>
+              </select>
+            </label>
+          </div>
         <div formArrayName="members">
-            <button class="mb-4 btn btn-success" (click)="onAdd()">Add Project Members</button>
+            <button type="button" class="mb-4 btn btn-success" (click)="onAdd()">Add Project Members</button>
             <div class="form-group" 
-            *ngFor="let memberControl of reactiveForm.get('persons.members').controls; let i = index"> 
-             <label>
-                <input type="text" class="form-control" [formControlName]="i">
-             </label>
+            *ngFor="let memberControl of reactiveForm.get('details.members').controls; let i = index"> 
+
+
+              <div class="d-flex justify-content-center">
+                  <label>
+                      <input type="text" class="form-control" [formControlName]="i">
+                   </label>
+                  <button type="button" class="custombtn ml-2 mb-2" (click)="onDeleteMember(i)">X</button>
+              </div>
+
+             
             </div>
         </div>
     </div>
-    <button type="submit" class="mb-2 btn btn-primary">Submit</button>
+    <button type="submit" class="mb-2 btn btn-primary" [disabled]="reactiveForm.invalid">Submit</button>
   </form>
-  <div class="mt-4 border border-success bg-light">
-      <p class="ml-2 mt-2 text-primary">Email: <span class="text-dark font-weight-bold"></span></p>
-      <p class="ml-2 text-primary">Subscription: <span class="text-dark font-weight-bold"></span></p>
+  <div class="mt-4 border border-success bg-light" *ngIf="clicked">
+      <p class="ml-2 mt-2 text-primary">Project Name: <span class="text-dark font-weight-bold">{{project.projName}}</span></p>
+      <p class="ml-2 text-primary">Email: <span class="text-dark font-weight-bold">{{project.email}}</span></p>
+      <p class="ml-2 text-primary">Status: <span class="text-dark font-weight-bold">{{project.projStat}}</span></p>
+      <p class="ml-2 text-primary">Platform: <span class="text-dark font-weight-bold">{{project.platform}}</span></p>
+      
+       <h3 class="text-primary text-highlight">Project Members :</h3>
+        <div *ngFor="let member of project.members; let i = index">
+            <p class="ml-2 text-primary">Member {{i}}: <span class="text-dark font-weight-bold">{{member}}</span></p>
+        </div>
    </div>
 </div>
+
 
